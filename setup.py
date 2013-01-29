@@ -7,7 +7,8 @@ setup(name='illuminaPipeline',
       author='Alexander W Blocker',
       author_email='ablocker@gmail.com',
       py_modules=['libPipeline'],
-      scripts=['pipeline-gui.py','convertToFASTQ.py','parseBowtieOutput.py',
-               'readsToChromCounts.py','buildReadLengthDist.py'],
-      requires=['numpy(>=1.1)','wx']
+      scripts=['pipeline-gui.py', 'convertToFASTQ.py', 'parseBowtieOutput.py',
+               'parseSAMOutput.py', 'readsToChromCounts.py',
+               'buildReadLengthDist.py'],
+      requires=['numpy(>=1.1)', 'wx']
       )
