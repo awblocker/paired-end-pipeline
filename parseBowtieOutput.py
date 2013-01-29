@@ -14,6 +14,9 @@ DESCRIPTION
     parseBowtieOutput.py
 
     Parses Bowtie alignments into paired-end read summaries.
+    Required if not using SAM output.
+    However, with SAM output, can parse directly using command-line tools
+    (parseSAMOutput.sh script) in 100x or so less time.
     Prints results to stdout.
 
 OPTIONS
