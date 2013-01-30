@@ -236,15 +236,17 @@ def readsToCounts(dataFile, outFile, randomize=True):
       chromIndex = int(line['chromosome'])-1
     except:
       continue
+
     chromSet.add(chromIndex)
-    #
+    
     # Extract start and length information
     start = int(line['start'])
     length = int(line['length'])
-    center = start + float(length)/2
-    #
-    # Allocate read center to one or two positions
-    if center==np.floor(center): reads[chromIndex][center] += 1.0
+    center = float(line['center'])
+    
+    # Allocate read center to one of two positions
+    if center==np.floor(center):
+      reads[chromIndex][center] += 1.0
     else:
       if randomize:
         reads[chromIndex][np.floor(center)+np.random.randint(1)] += 1.0
@@ -255,7 +257,7 @@ def readsToCounts(dataFile, outFile, randomize=True):
 
   # Write results
   for chrom in reads:
-    np.savetxt( outFile, chrom[np.newaxis,:],
+    np.savetxt(outFile, chrom[np.newaxis,:],
                fmt='%.1f', delimiter=',' )
 
 def getReadLengthDist(dataFile, outFile, offset=0):
