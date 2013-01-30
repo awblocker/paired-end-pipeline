@@ -262,19 +262,19 @@ def getReadLengthDist(dataFile, outFile, offset=0):
     except:
       continue
 
-      readLength = int(line['length'])
+    readLength = int(line['length'])
 
-      if len(dist) <= readLength:
-        dist.extend([0]*(readLength-len(dist)+1))
-        dist[readLength] += 1
-      else:
-        dist[readLength] += 1
+    if len(dist) <= readLength:
+      dist.extend([0]*(readLength-len(dist)+1))
+      dist[readLength] += 1
+    else:
+      dist[readLength] += 1
 
-    dist = np.array(dist)
-    nonzero = np.where(dist > 0)[0]
-    nonzero = np.arange(nonzero.min(), nonzero.max()+1, dtype='i')
+  dist = np.array(dist)
+  nonzero = np.where(dist > 0)[0]
+  nonzero = np.arange(nonzero.min(), nonzero.max()+1, dtype='i')
 
-    # Format & write output
-    readLengths = np.vstack( (nonzero, dist[nonzero]) ).T
-    np.savetxt(outFile, readLengths, fmt='%d')
+  # Format & write output
+  readLengths = np.vstack( (nonzero, dist[nonzero]) ).T
+  np.savetxt(outFile, readLengths, fmt='%d')
 
