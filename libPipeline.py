@@ -9,9 +9,10 @@ import re
 import sys
 import StringIO
 import csv
-import numpy as np
 import os
+import time
 
+import numpy as np
 import pysam
 
 # Define constants
@@ -175,6 +176,7 @@ def processSAMOutput(alignmentPath, outFile, pairedEnd=True, rmdup=False):
   outFile.write(HEADER)
 
   # Iterate over alignments in SAM file
+  time_start = time.time()
   with pysam.Samfile(inputPath, 'rb') as f:
     for alignedRead in f:
       if alignedRead.is_proper_pair and alignedRead.tlen > 0:
@@ -198,6 +200,9 @@ def processSAMOutput(alignmentPath, outFile, pairedEnd=True, rmdup=False):
 
         output = (chrom, '+', start, end, center, length, nvalid)
         outFile.write(OUTPUT_FORMAT % output)
+  
+  time_end = time.time()
+  print >> sys.stderr, 'Processing time: %f seconds' % (time_end - time_start)
 
   return 0
 
