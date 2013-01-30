@@ -48,5 +48,5 @@ if __name__ == "__main__":
     print >> sys.stderr, "Error -- need path to SAM file"
     sys.exit(1)
 
-  libPipeline.processSAMOutput(alignmentPath, sys.stdout)
+  libPipeline.processSAMOutput(alignmentPath, sys.stdout, rmdup=rmdup)
 
