@@ -153,24 +153,34 @@ def processSAMOutput(alignmentPath, outFile, pairedEnd=True, rmdup=False):
 
   # Strip file extension from path
   file_name, file_ext = os.path.splitext(alignmentPath)
+  
+  # Check for special naming of file
+  file_base, file_special = os.path.splitext(file_name)
 
   # Make into sorted BAM file
+  inputPath = alignmentPath
   if file_ext.lower() != '.bam':
     os.system('samtools view -bS -o %s %s' %
-              (file_name + '.bam', alignmentPath))
-    alignmentPath = file_name + '.bam'
-
-  os.system('samtools sort %s %s.sorted' % 
-            (alignmentPath, file_name))
-  sortedPath = file_name + '.sorted.bam'
+              (file_base + '.bam', alignmentPath))
+    inputPath = file_base + '.bam'
+  
+  if ((file_ext.lower() != '.bam') or
+      (file_special.lower() not in ('.sorted', '.unique'))):
+    os.system('samtools sort %s %s.sorted' % 
+              (inputPath, file_base))
+    inputPath = file_base + '.sorted.bam'
+  else:
+    print >> sys.stderr, 'Skipping sorting due to %s extension' % (file_special
+                                                                   + file_ext)
 
   # Remove duplicates if requested
-  if rmdup:
-    os.system('samtools rmdup %s %s',
-              (sortedPath, fileName + 'unique.bam'))
-    inputPath = fileName + 'unique.bam'
+  if rmdup and file_special.lower() != '.unique':
+    os.system('samtools rmdup %s %s' %
+              (inputPath, file_base + '.unique.bam'))
+    inputPath = file_base + '.unique.bam'
   else:
-    inputPath = sortedPath
+    print >> sys.stderr, 'Skipping rmdup due to %s extension' % (file_special +
+                                                                 file_ext)
 
   # Print header
   outFile.write(HEADER)

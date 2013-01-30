@@ -19,6 +19,18 @@ parseSAMOutput.py
     Parses SAM alignments into paired-end read summaries.
     Prints results to stdout.
 
+    If SAMFILE has a .sam or .SAM file extension, it is converted to BAM and all
+    transformations (sorting, rmdup) are run via samtools.
+
+    If SAMFILE has a .bam or .BAM file extension, conversion to BAM is skipped
+    and all transformations are run via samtools.
+
+    If SAMFILE has a .sorted.bam file extension (in any case), then sorting is
+    skipped.
+
+    If SAMFILE has a .unique.bam file extension, all samtools processing is
+    skipped, including rmdup.
+
 OPTIONS
 --rmdup             Remove duplicate reads (reduces PCR effects)
 -h/--help           Print help message and exit
