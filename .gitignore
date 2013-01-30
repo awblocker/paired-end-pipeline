@@ -6,6 +6,8 @@ dist
 windows_dependencies
 mapReads/
 
+.*.sw*
+
 *.py[cod]
 
 # C extensions
